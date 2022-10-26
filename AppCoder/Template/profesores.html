@@ -1,14 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profesores</title>
-</head>
-<body style="background-color:red">
+{% extends 'padre.html' %}
 
-    <h1>Vista de Profesores desde Template</h1>
+{% load static %}
+
+
+{% block contenidoQueCambia %}
+
+<h1 style="color:blue">Vista de Profesores</h1>
+
+<h4 style="color:rgb(85, 85, 8)">Aca sigue la lista de profesores activos!</h4>
+
+<ul>
+    <li>Profesor Mauricio Cuello</li>
+    <li>Profesor Pepe Argento</li>
+    <li>Profesor Lionel Messi</li>
     
-</body>
-</html>
+</ul>
+
+{% endblock contenidoQueCambia %}
