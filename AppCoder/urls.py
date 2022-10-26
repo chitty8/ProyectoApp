@@ -4,7 +4,7 @@ from .views import buscar, busqueda_camada, curso, cursoFormulario, inicio, list
 
 urlpatterns = [
     path("Agrega-curso/<nombre>/<camada>", curso),
-    path("inicio", inicio),
+    path("", inicio),
     path("lista_curso/", lista_curso),
     path("cursos/", cursos, name="Cursos"),
     path("profesores/", profesores, name="Profesores"),
