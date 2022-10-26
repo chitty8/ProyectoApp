@@ -21,3 +21,36 @@ def lista_curso(request):
     lista = Curso.objects.all()
 
     return render(request, "Lista_cursos.html", {"lista_cursos":lista})
+
+
+
+
+def inicio(request):
+    
+    return render(request, "inicio.html")
+
+    return HttpResponse("Vista inicio")
+
+def cursos(request):
+
+    return render(request, "cursos.html")
+
+    return HttpResponse("Vista cursos")
+
+def profesores(request):
+
+    return render(request, "profesores.html")
+
+    return HttpResponse("Vista profesores")
+
+def estudiantes(request):
+
+    return render(request, "estudiantes.html")
+
+    return HttpResponse("Vista estudiantes")
+
+def entregables(request):
+
+    return render(request, "entregables.html")
+
+    return HttpResponse("Vista entregables")
