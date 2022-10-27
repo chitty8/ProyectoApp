@@ -5,7 +5,7 @@
 
 {% block contenidoQueCambia %}
 
-<form action="" method="get">{% csrf_token %}
+<form action="{% url "buscar"  %}" method="get">{% csrf_token %}
 
      <p>Ingrese numero de camada <input type="number" name="camada" id=""> </p>
 
