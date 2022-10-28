@@ -22,6 +22,9 @@ class Profesor(models.Model):
     apellido = models.CharField( max_length=50)
     gmail = models.EmailField()
     profesion = models.CharField( max_length=50)
+    def __str__(self):
+        return f"{self.nombre} - {self.apellido}"
+
 
 
 class Entregables(models.Model):

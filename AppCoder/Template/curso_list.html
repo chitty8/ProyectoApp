@@ -5,16 +5,16 @@
 
 {% block contenidoQueCambia %}
 
-    <h1>Lista de Profesores</h1>
+    <h1>Lista de Cursos</h1>
 
 
     <ul>
         
-        {% for profesor  in profesores %}
+        {% for cursp  in object_list %}
             <li>
-                {{profesor}}
+                {{curso}}
             </li>
-        
+
         {% endfor %}
             
     </ul>
