@@ -1,12 +1,12 @@
 from django.urls import path
 
-from ProyectoApp.AppCoder.models import Curso
+from AppCoder.models import Curso
 
-from .views import buscar, busqueda_camada, crea_profesor, curso, cursoFormulario, edutar_profesores, eliminarProfesores, inicio, listaProfesores, lista_curso, cursos, profesores, estudiantes, entregables
+from .views import CursoCreate, CursoDelete, CursoDetail, CursoList, CursoUpdate, buscar, busqueda_camada, crea_profesor, curso, cursoFormulario, editar_profesores, eliminarProfesores, inicio, listaProfesores, lista_curso, cursos, profesores, estudiantes, entregables
 
 urlpatterns = [
     path("Agrega-curso/<nombre>/<camada>", curso),
-    path("", inicio),
+    path("", inicio,name="Inicio"),
     path("lista_curso/", lista_curso),
     path("cursos/", cursos, name="Cursos"),
     path("profesores/", profesores, name="Profesores"),
@@ -18,6 +18,10 @@ urlpatterns = [
     path("listaProfesores/", listaProfesores,name="listaProfesores"),
     path("crea-profesores/", crea_profesor,name="CreaProfesor"),
     path("elimina-profesor/<int:id>", eliminarProfesores,name="EliminaProfesor"),
-    path("edita-profesor/<int:id>", edutar_profesores,name="EditarProfesor"),
-    path("listacurso/", Curso.list,name="EditarProfesor"),
+    path("editar-profesor/<int:id>", editar_profesores,name="EditarProfesor"),
+    path("listaCursos", CursoList.as_view(),name="ListaCursos"),
+    path("detalleCurso/<pk>",CursoDetail.as_view(),name="DetalleCurso"),
+    path("creaCurso/",CursoCreate.as_view(),name="CreaCurso"),
+    path("actualizarCursos/<pk>",CursoUpdate.as_view(),name="ActualizaCurso"),
+    path("eliminarCursos/<pk>",CursoDelete.as_view(),name="EliminaCurso"),
 ]

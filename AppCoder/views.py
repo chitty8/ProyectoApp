@@ -2,10 +2,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from .models import Curso, Profesor
 from .forms import CursoFormulario, ProfesorFormulario
-from django.views.generic import ListView,DeleteView,CreateView,UpdateView
-from django.views.generic.detail import
-
-
+from django.views.generic import ListView
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import DeleteView,CreateView,UpdateView
 
 
 
@@ -105,11 +104,13 @@ def crea_profesor(request):
     print("post", request.POST)
 
     if request.method == "POST":
-        mi_formulario = ProfesorFormulario(request.POST)
-        print(mi_formulario)
-        if mi_formulario.is_valid():
-            data = mi_formulario.cleaned_data
-            profesor= Profesor(nombre=data["nombre"], apellido=data["apellido"], gmail=data["email"], profesion=data["profesion"])
+        miformulario = ProfesorFormulario(request.POST)
+        print(miformulario)
+        if miformulario.is_valid():
+
+            data = miformulario.cleaned_data
+             
+            profesor= Profesor(nombre=data["nombre"], apellido=data["apellido"], gmail=data["gmail"], profesion=data["profesion"])
             profesor.save()
 
         return HttpResponseRedirect("/app-coder/")
@@ -118,36 +119,42 @@ def crea_profesor(request):
         miformulario = ProfesorFormulario()
 
 
-        return render(request, "profesorFormulario", {"miformulario":miformulario})
+        return render(request, "profesorFormulario.html", {"miformulario":miformulario})
     
 
 
-def eliminarProfesores(request):
+def eliminarProfesores(request,id):
     if request.method == "POST":
+
         profesor = Profesor.objects.get(id=id)
-        profesor.delete
+        profesor.delete()
+
         profesores = Profesor.objects.all()
 
-        return HttpResponseRedirect("/app-code/")
         
     return render(request, "leerProfesores.html", {"profesores":profesores})
 
 
-def edutar_profesores(request):
+def editar_profesores(request, id):
 
     print("method", request.method)
     print("post", request.POST)
 
     profesor = Profesor.objects.get(id=id)
+
     if request.method == "POST":
+
         miFormulario = ProfesorFormulario(request.POST)
+
         print(miFormulario)
+
         if miFormulario.is_valid():
+
             data = miFormulario.cleaned_data
 
             profesor.nombre = data["nombre"]
             profesor.apellido = data["apellido"]
-            profesor.gmail = data["email"]
+            profesor.gmail = data["gmail"]
             profesor.profesion = data["profesion"]
 
             profesor.save()
@@ -155,15 +162,15 @@ def edutar_profesores(request):
         return HttpResponseRedirect("/app-coder/")
     
     else:
-        miformulario = ProfesorFormulario( initial= {
+        miFormulario = ProfesorFormulario( initial={
             "nombre":profesor.nombre,
             "apellido":profesor.apellido,
-            "email":profesor.email,
+            "gmail":profesor.gmail,
             "profesion":profesor.profesion,
         })
 
 
-        return render(request, "profesorFormulario", {"miformulario":miformulario})
+        return render(request, "editarProfesor.html", {"miFormulario":miFormulario, "id": profesor.id})
     
 
 
@@ -174,19 +181,24 @@ class CursoList(ListView):
     template_name = "curso_list.html" 
     context_object_name = "cursos"
 
-class CursoDetail(ListView):
+class CursoDetail(DetailView):
     model = Curso
     template_name = "curso_detail.html" 
-      
-class CursoCreate(ListView):
+    context_object_name = "curso"
+
+class CursoCreate(CreateView):
     model = Curso
     template_name = "curso_create.html" 
-   
-class CursoUpdate(ListView):
+    fields = ["nombre", "camada"]
+    success_url =  "/app-coder/"
+ 
+class CursoUpdate(UpdateView):
     model = Curso
     template_name = "curso_update.html" 
-        
+    fields = ("__all__")
+    success_url =  "/app-coder/"
 
-class CursoDelete(ListView):         
+class CursoDelete(DeleteView):         
     model = Curso
     template_name = "curso_delete.html" 
+    success_url =  "/app-coder/"

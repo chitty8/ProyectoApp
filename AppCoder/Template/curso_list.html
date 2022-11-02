@@ -10,11 +10,20 @@
 
     <ul>
         
-        {% for cursp  in object_list %}
+        {% for curso  in cursos %}
             <li>
-                {{curso}}
+                <a href="{% url "DetalleCurso" curso.id %}">
+                    {{curso}}
+                </a>
             </li>
-
+            <div>
+                <button>
+                    <a href="{% url "EliminaCurso" curso.id %}">Eliminar</a>
+                </button>
+                <button>
+                    <a href="{% url "ActualizaCurso" curso.id %}">Editar</a>
+                </button>
+            </div>
         {% endfor %}
             
     </ul>
