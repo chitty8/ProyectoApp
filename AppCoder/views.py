@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
-from .models import Curso, Profesor
-from .forms import CursoFormulario, ProfesorFormulario
+from .models import Curso, Profesor, Avatar
+from .forms import CursoFormulario, ProfesorFormulario, UserEditForm
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView,CreateView,UpdateView
@@ -34,8 +34,9 @@ def lista_curso(request):
 
 
 def inicio(request):
-    
-    return render(request, "inicio.html")
+
+    avatar = Avatar.objects.get(user=request.user)
+    return render(request, "inicio.html", {"url": avatar.imagen.url})
 
 @login_required
 def cursos(request):
@@ -271,3 +272,35 @@ def register(request):
          return render(request, "registro.html", {"miFormulario":miFormulario})
     
 
+
+def editarPerfil(request):
+    
+    print('method:', request.method)
+    print('post: ', request.POST)
+
+    usuario = request.user
+
+    if request.method == 'POST':
+
+        miFormulario = UserEditForm(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            usuario.first_name = data["first_name"]
+            usuario.last_name = data["last_name"]
+            usuario.email = data["email"]
+            
+
+            usuario.save()
+
+            return render(request, "inicio.html", {"mensaje": f'Datos actualizados!'})
+
+        return render(request,"editarPerfil.html", {"mensaje":f"Las contraseñas no coinciden"})
+    else:
+
+        miFormulario = UserEditForm(instance=request.user)
+
+        return render(request, "editarPerfil.html", {"miFormulario": miFormulario})
+    
