@@ -20,6 +20,15 @@ class ProfesorFormulario(forms.Form):
      profesion = forms.CharField(max_length=30)
 
 
+class EntregableFormulario(forms.Form):
+
+     nombre = forms.CharField(max_length=30)
+     fechaDeEntrega = forms.CharField(max_length=30)
+     entregado = forms.BooleanField()
+     link = forms.CharField(max_length=250)
+    
+
+
 class UserEditForm(UserChangeForm):
 
     password = forms.CharField(

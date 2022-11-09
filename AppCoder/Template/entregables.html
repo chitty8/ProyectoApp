@@ -5,8 +5,19 @@
 
 {% block contenidoQueCambia %}
 
-<h1 style="color:blue">Vista de Entregables</h1>
+    <h1>Lista de Entregables</h1>
 
-<h4 style="color:rgb(85, 85, 8)">Aca se veran las entregas de los trabajos!</h4>
+
+    <ul>
+        
+        {% for entregable  in entregables %}
+            <li>
+                {{entregable.nombre}} - {{entregable.fechaDeEntrega}}
+            </li>
+        
+        {% endfor %}
+            
+    </ul>
+    <a href="{% url "CreaEntregable" %}">Agregar entregable</a>
 
 {% endblock contenidoQueCambia %}

@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
-from .models import Curso, Profesor, Avatar
-from .forms import CursoFormulario, ProfesorFormulario, UserEditForm
+from .models import Curso, Profesor, Avatar, Entregables, Estudiantes
+from .forms import CursoFormulario, ProfesorFormulario, UserEditForm, EntregableFormulario
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView,CreateView,UpdateView
@@ -55,8 +55,8 @@ def estudiantes(request):
 
 
 def entregables(request):
-
-    return render(request, "entregables.html")
+    lista = Entregables.objects.all()
+    return render(request, "entregables.html", {"entregables":lista})
 
 
 
@@ -102,6 +102,12 @@ def listaProfesores(request):
 
     return render(request, "leerProfesores.html", {"profesores": profesores})
 
+def listaEntregables(request):
+    
+    entregable = Entregables.objects.all()
+
+    return render(request, "entregables.html", {"entregables": entregable})
+
 
 def crea_profesor(request):
 
@@ -125,6 +131,29 @@ def crea_profesor(request):
 
 
         return render(request, "profesorFormulario.html", {"miformulario":miformulario})
+    
+def crea_entregable(request):
+
+    print("method", request.method)
+    print("post", request.POST)
+
+    if request.method == "POST":
+        miFormulario = EntregableFormulario(request.POST)
+        print(miFormulario)
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+             
+            entregable= Entregables(nombre=data["nombre"], fecha_De_Entrega=data["Fecha"])
+            entregable.save()
+
+        return HttpResponseRedirect("/app-coder/")
+    
+    else:
+        miFormulario = EntregableFormulario()
+
+
+        return render(request, "entregableFormulario.html", {"miFormulario":miFormulario})
     
 
 
