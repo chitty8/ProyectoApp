@@ -5,19 +5,19 @@
 
 {% block contenidoQueCambia %}
 
-    <h1>Lista de Profesores</h1>
+    <h1>Lista de Jugadores</h1>
 
 
     <ul>
         
-        {% for profesor  in profesores %}
+        {% for jugador  in jugadores %}
             <li>
-                {{profesor.nombre}} - {{profesor.apellido}}
+                {{jugador.nombre}} - {{jugador.apellido}} - {{jugador.equipo}}
             </li>
         
         {% endfor %}
             
     </ul>
-    <a href="{% url "CreaProfesor" %}">Agregar Profesor</a>
+    <a href="{% url "CreaJugador" %}">Anotate</a>
 
 {% endblock contenidoQueCambia %}

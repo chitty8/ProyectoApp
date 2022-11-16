@@ -4,9 +4,9 @@
 
 
 {% block contenidoQueCambia %}
-<form action="{% url "CreaEntregable"  %}" method="POST">{% csrf_token %}
+<form action="{% url "CreaJugador"  %}" method="POST">{% csrf_token %}
 
-   {{ miFormulario.as_p}}
+   {{ miformulario.as_p}}
 
    <input type="submit" value="Agregar"/>
 

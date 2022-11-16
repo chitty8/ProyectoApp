@@ -1,0 +1,12 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+
+{% block contenidoQueCambia %}
+
+    <h1>Vista en detalle del equipo</h1>
+
+    <h3 style="color:blue;">El equipo se llama {{equipo.nombre}} y esta ubicado en {{equipo.ciudad}}</h3>
+
+{% endblock contenidoQueCambia %}

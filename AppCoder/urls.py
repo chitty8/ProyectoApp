@@ -1,34 +1,31 @@
 from django.urls import path
 
-from AppCoder.models import Curso
+from AppCoder.models import Equipo
 from django.contrib.auth.views import LogoutView
 
-from .views import CursoCreate,CursoDelete,CursoDetail, CursoList, CursoUpdate, buscar, busqueda_camada, crea_profesor,listaEntregables,crea_entregable, curso, cursoFormulario, editar_profesores, eliminarProfesores, inicio, listaProfesores, lista_curso, cursos, loginview, profesores, estudiantes, entregables, register, editarPerfil
+from .views import EquipoCreate,EquipoDelete,EquipoDetail, EquipoList, EquipoUpdate, aboutme, buscar, busqueda_ciudad, crea_jugadores, equipo, equipoFormulario, editar_jugadores, eliminarJugadores, inicio, listaJugadores, lista_equipos, equipos, loginview, jugadores, register, editarPerfil
 
 urlpatterns = [
-    path("Agrega-curso/<nombre>/<camada>", curso),
+    path("Agrega-equipo/<nombre>/<ciudad>", equipo),
     path("", inicio,name="Inicio"),
-    path("lista_curso/", lista_curso),
-    path("cursos/", cursos, name="Cursos"),
-    path("profesores/", profesores, name="Profesores"),
-    path("estudiantes/", estudiantes,name="Estudiantes"),
-    path("entregables/", entregables,name="Entregables"),
-    path("cursoFormulario/", cursoFormulario,name="CursoFormulario"),
-    path("busquedacamada/", busqueda_camada,name="busqueda_camada"),
+    path("lista_equipo/", lista_equipos),
+    path("equipos/", equipos, name="Equipos"),
+    path("jugadores/", jugadores, name="Jugadores",),
+    path("equipoFormulario/", equipoFormulario,name="EquipoFormulario"),
+    path("busquedaciudad/", busqueda_ciudad,name="busqueda_ciudad"),
     path("buscar/", buscar,name="buscar"),
-    path("listaProfesores/", listaProfesores,name="listaProfesores"),
-    path("crea-profesores/", crea_profesor,name="CreaProfesor"),
-    path("lista_entregable/", listaEntregables,name="listaEntregables"),
-    path("crea-entregable/", crea_entregable,name="CreaEntregable"),
-    path("elimina-profesor/<int:id>", eliminarProfesores,name="EliminaProfesor"),
-    path("editar-profesor/<int:id>", editar_profesores,name="EditarProfesor"),
-    path("listaCursos", CursoList.as_view(),name="ListaCursos"),
-    path("detalleCurso/<pk>",CursoDetail.as_view(),name="DetalleCurso"),
-    path("creaCurso/",CursoCreate.as_view(),name="CreaCurso"),
-    path("actualizarCursos/<pk>",CursoUpdate.as_view(),name="ActualizaCurso"),
-    path("eliminarCursos/<pk>",CursoDelete.as_view(),name="EliminaCurso"),
+    path("listaJugadores/", listaJugadores,name="listaJugadores"),
+    path("crea-Jugadores/", crea_jugadores,name="CreaJugador"),
+    path("elimina-jugador/<int:id>", eliminarJugadores,name="EliminaJugador"),
+    path("editar-jugador/<int:id>", editar_jugadores,name="EditarJugador"),
+    path("listaEquipos", EquipoList.as_view(),name="ListaEquipos"),
+    path("detalleEquipo/<pk>",EquipoDetail.as_view(),name="DetalleEquipo"),
+    path("creaEquipo/",EquipoCreate.as_view(),name="CreaEquipo"),
+    path("actualizarEquipo/<pk>",EquipoUpdate.as_view(),name="ActualizaEquipo"),
+    path("eliminarEquipo/<pk>",EquipoDelete.as_view(),name="EliminaEquipo"),
     path("login/",loginview,name="Login"),
     path("registrar/",register,name="Registrar"),
     path("logout/",LogoutView.as_view(template_name="logout.html"),name="Logout"),
     path("editar-perfil/",editarPerfil,name="EditarPerfil"),
+    path("AboutMe/",aboutme,name="AboutMe")
 ]

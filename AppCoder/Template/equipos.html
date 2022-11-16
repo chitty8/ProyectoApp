@@ -1,0 +1,21 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+
+{% block contenidoQueCambia %}
+
+<h1>Vista de equipos de nuestra liga!!</h1>
+
+<h4>Estos son los equipos que tenemos!</h4>
+    
+<ul>
+        {% for equipo in lista_equipos %}
+            <li>{{equipo.nombre}} - {{equipo.ciudad}}</li>
+        {% endfor %}
+        
+</ul>
+<a href="{% url "EquipoFormulario" %}">Agregar Equipo</a>
+{% endblock contenidoQueCambia %}
+
+    

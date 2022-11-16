@@ -10,16 +10,16 @@
 
     <ul>
         
-        {% for profesor  in profesores %}
+        {% for jugador  in jugadores %}
             <li>
-                {{profesor}}
+                {{jugador}}
             </li>
             <div>
-                <form action="{% url "EliminaProfesor" profesor.id  %}" method="POST">{% csrf_token %}
+                <form action="{% url "EliminaJugador" jugador.id  %}" method="POST">{% csrf_token %}
                  <button type="submit"> Eliminar </button>
                  </form>
                  <button>
-                    <a href="{% url "EditarProfesor" profesor.id  %}">Editar</a>
+                    <a href="{% url "EditarJugador" jugador.id  %}">Editar</a>
                  </button>
             </div>
         {% endfor %}

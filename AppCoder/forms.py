@@ -6,27 +6,19 @@ from django.contrib.auth.models import User
    # TODO: Define form fields here
 
 
-class CursoFormulario(forms.Form):
+class EquipoFormulario(forms.Form):
 
-    curso = forms.CharField()
-    camada = forms.IntegerField()
+    equipo = forms.CharField(max_length=30)
+    ciudad = forms.CharField(max_length=30)
      
 
-class ProfesorFormulario(forms.Form):
+class JugadorFormulario(forms.Form):
 
      nombre = forms.CharField(max_length=30)
      apellido = forms.CharField(max_length=30)
      gmail = forms.EmailField()
-     profesion = forms.CharField(max_length=30)
-
-
-class EntregableFormulario(forms.Form):
-
-     nombre = forms.CharField(max_length=30)
-     fechaDeEntrega = forms.CharField(max_length=30)
-     entregado = forms.BooleanField()
-     link = forms.CharField(max_length=250)
-    
+     equipo = forms.CharField(max_length=30)
+     nacimiento = forms.DateField()
 
 
 class UserEditForm(UserChangeForm):

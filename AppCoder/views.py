@@ -1,7 +1,7 @@
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
-from .models import Curso, Profesor, Avatar, Entregables, Estudiantes
-from .forms import CursoFormulario, ProfesorFormulario, UserEditForm, EntregableFormulario
+from .models import Equipo, Jugadores, Avatar
+from .forms import EquipoFormulario, JugadorFormulario, UserEditForm
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import DeleteView,CreateView,UpdateView
@@ -13,22 +13,28 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 
+def aboutme(request):
 
-def curso(request,nombre,camada):
+    return render(request, "aboutme.html",)
 
-    curso = Curso(nombre=nombre, camada=camada)
-    curso.save()
+
+
+
+def equipo(request,nombre,ciudad):
+
+    equipo = Equipo(nombre=nombre, ciudad=ciudad)
+    equipo.save()
 
     return HttpResponse(f"""
-        <p>Curso: {curso.nombre} - Camada: {curso.camada} agregado! </p>
+        <p>Curso: {equipo.nombre} - ciudad: {equipo.ciudad} agregado! </p>
     """)
 
 
-def lista_curso(request):
+def lista_equipos(request):
 
-    lista = Curso.objects.all()
+    lista = Equipo.objects.all()
 
-    return render(request, "Lista_cursos.html", {"lista_cursos":lista})
+    return render(request, "Lista_equipos.html", {"lista_equipos":lista})
 
 
 
@@ -38,147 +44,108 @@ def inicio(request):
     avatar = Avatar.objects.get(user=request.user)
     return render(request, "inicio.html", {"url": avatar.imagen.url})
 
-@login_required
-def cursos(request):
-    lista = Curso.objects.all()
-    return render(request, "cursos.html", {"lista_cursos":lista})
 
-@staff_member_required(login_url="/app-coder/login")
-def profesores(request):
-    lista = Profesor.objects.all()
-    return render(request, "profesores.html", {"profesores":lista})
+def equipos(request):
+    lista = Equipo.objects.all()
+    return render(request, "equipos.html", {"lista_equipos":lista})
 
 
-def estudiantes(request):
-
-    return render(request, "estudiantes.html")
-
-
-def entregables(request):
-    lista = Entregables.objects.all()
-    return render(request, "entregables.html", {"entregables":lista})
+def jugadores(request):
+    lista = Jugadores.objects.all()
+    return render(request, "jugadores.html", {"jugadores":lista})
 
 
-
-def cursoFormulario(request):
+def equipoFormulario(request):
 
     print("method", request.method)
     print("post", request.POST)
 
     if request.method == "POST":
-        mi_formulario = CursoFormulario(request.POST)
+        mi_formulario = EquipoFormulario(request.POST)
         print(mi_formulario)
         if mi_formulario.is_valid():
             data = mi_formulario.cleaned_data
-            curso= Curso(nombre=data["curso"], camada=data["camada"])
-            curso.save()
+            equipo= Equipo(nombre=data["equipo"], ciudad=data["ciudad"], equipo=data["equipo"], nacimiento=data["nacimiento"])
+            equipo.save()
 
-        return redirect("Cursos")
+        return redirect("Equipos")
     
     else:
-        mi_formulario = CursoFormulario()
+        mi_formulario = EquipoFormulario()
 
 
-        return render(request, "cursoFormulario.html", {"mi_formulario":mi_formulario})
+        return render(request, "equipoFormulario.html", {"mi_formulario":mi_formulario})
     
 
-def busqueda_camada(request):
+def busqueda_ciudad(request):
 
-    return render(request, "busqueda_camada.html")
+    return render(request, "busqueda_ciudad.html")
 
 def buscar(request):
 
-    camada_buscada = request.GET["camada"]
+    ciudad_buscada = request.GET["ciudad"]
     
-    curso = Curso.objects.get(camada = camada_buscada)
+    equipo = Equipo.objects.get(ciudad = ciudad_buscada)
 
-    return render(request, "resultado_busqueda.html", {"curso":curso, "camada": camada_buscada})
+    return render(request, "resultado_busqueda.html", {"equipo":equipo, "ciudad": ciudad_buscada})
 
 
     
-def listaProfesores(request):
+def listaJugadores(request):
     
-    profesores = Profesor.objects.all()
+    jugadores = Jugadores.objects.all()
 
-    return render(request, "leerProfesores.html", {"profesores": profesores})
-
-def listaEntregables(request):
-    
-    entregable = Entregables.objects.all()
-
-    return render(request, "entregables.html", {"entregables": entregable})
+    return render(request, "leerjugadores.html", {"jugadores": jugadores})
 
 
-def crea_profesor(request):
+
+
+def crea_jugadores(request):
 
     print("method", request.method)
     print("post", request.POST)
 
     if request.method == "POST":
-        miformulario = ProfesorFormulario(request.POST)
+        miformulario = JugadorFormulario(request.POST)
         print(miformulario)
         if miformulario.is_valid():
 
             data = miformulario.cleaned_data
              
-            profesor= Profesor(nombre=data["nombre"], apellido=data["apellido"], gmail=data["gmail"], profesion=data["profesion"])
-            profesor.save()
+            jugador= Jugadores(nombre=data["nombre"], apellido=data["apellido"], gmail=data["gmail"],equipo=data["equipo"], nacimiento=data["nacimiento"] )
+            jugador.save()
 
         return HttpResponseRedirect("/app-coder/")
     
     else:
-        miformulario = ProfesorFormulario()
+        miformulario = JugadorFormulario()
 
 
-        return render(request, "profesorFormulario.html", {"miformulario":miformulario})
-    
-def crea_entregable(request):
-
-    print("method", request.method)
-    print("post", request.POST)
-
-    if request.method == "POST":
-        miFormulario = EntregableFormulario(request.POST)
-        print(miFormulario)
-        if miFormulario.is_valid():
-
-            data = miFormulario.cleaned_data
-             
-            entregable= Entregables(nombre=data["nombre"], fecha_De_Entrega=data["Fecha"])
-            entregable.save()
-
-        return HttpResponseRedirect("/app-coder/")
-    
-    else:
-        miFormulario = EntregableFormulario()
-
-
-        return render(request, "entregableFormulario.html", {"miFormulario":miFormulario})
+        return render(request, "jugadorFormulario.html", {"miformulario":miformulario})
     
 
-
-def eliminarProfesores(request,id):
+def eliminarJugadores(request,id):
     if request.method == "POST":
 
-        profesor = Profesor.objects.get(id=id)
-        profesor.delete()
+        jugadores = Jugadores.objects.get(id=id)
+        jugadores.delete()
 
-        profesores = Profesor.objects.all()
+        jugadores = Jugadores.objects.all()
 
         
-    return render(request, "leerProfesores.html", {"profesores":profesores})
+    return render(request, "leerJugadores.html", {"jugadores":jugadores})
 
 
-def editar_profesores(request, id):
+def editar_jugadores(request, id):
 
     print("method", request.method)
     print("post", request.POST)
 
-    profesor = Profesor.objects.get(id=id)
+    jugador = Jugadores.objects.get(id=id)
 
     if request.method == "POST":
 
-        miFormulario = ProfesorFormulario(request.POST)
+        miFormulario = JugadorFormulario(request.POST)
 
         print(miFormulario)
 
@@ -186,55 +153,55 @@ def editar_profesores(request, id):
 
             data = miFormulario.cleaned_data
 
-            profesor.nombre = data["nombre"]
-            profesor.apellido = data["apellido"]
-            profesor.gmail = data["gmail"]
-            profesor.profesion = data["profesion"]
+            jugador.nombre = data["nombre"]
+            jugador.apellido = data["apellido"]
+            jugador.gmail = data["gmail"]
+            
 
-            profesor.save()
+            jugador.save()
 
         return HttpResponseRedirect("/app-coder/")
     
     else:
-        miFormulario = ProfesorFormulario( initial={
-            "nombre":profesor.nombre,
-            "apellido":profesor.apellido,
-            "gmail":profesor.gmail,
-            "profesion":profesor.profesion,
+        miFormulario = JugadorFormulario( initial={
+            "nombre":jugador.nombre,
+            "apellido":jugador.apellido,
+            "gmail":jugador.gmail,
+            
         })
 
 
-        return render(request, "editarProfesor.html", {"miFormulario":miFormulario, "id": profesor.id})
+        return render(request, "editarJugador.html", {"miFormulario":miFormulario, "id": jugador.id})
     
 
 
 
-class CursoList(LoginRequiredMixin,ListView):
+class EquipoList(LoginRequiredMixin,ListView):
 
-    model = Curso
-    template_name = "curso_list.html" 
-    context_object_name = "cursos"
+    model = Equipo
+    template_name = "equipo_list.html" 
+    context_object_name = "equipos"
 
-class CursoDetail(DetailView):
-    model = Curso
-    template_name = "curso_detail.html" 
-    context_object_name = "curso"
+class EquipoDetail(DetailView):
+    model = Equipo
+    template_name = "equipo_detail.html" 
+    context_object_name = "equipo"
 
-class CursoCreate(CreateView):
-    model = Curso
-    template_name = "curso_create.html" 
-    fields = ["nombre", "camada"]
+class EquipoCreate(CreateView):
+    model = Equipo
+    template_name = "equipo_create.html" 
+    fields = ["nombre", "ciudad"]
     success_url =  "/app-coder/"
  
-class CursoUpdate(UpdateView):
-    model = Curso
-    template_name = "curso_update.html" 
+class EquipoUpdate(UpdateView):
+    model = Equipo
+    template_name = "equipo_update.html" 
     fields = ("__all__")
     success_url =  "/app-coder/"
 
-class CursoDelete(DeleteView):         
-    model = Curso
-    template_name = "curso_delete.html" 
+class EquipoDelete(DeleteView):         
+    model = Equipo
+    template_name = "equipo_delete.html" 
     success_url =  "/app-coder/"
 
 
