@@ -14,8 +14,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def aboutme(request):
-
-    return render(request, "aboutme.html",)
+    avatar = Avatar.objects.get(user=request.user)
+    return render(request, "aboutme.html",{"url": avatar.imagen.url})
 
 
 
