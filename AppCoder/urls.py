@@ -3,7 +3,7 @@ from django.urls import path
 from AppCoder.models import Equipo
 from django.contrib.auth.views import LogoutView
 
-from .views import EquipoCreate,EquipoDelete,EquipoDetail, EquipoList, EquipoUpdate, aboutme, buscar, busqueda_ciudad, crea_jugadores, equipo, equipoFormulario, editar_jugadores, eliminarJugadores, inicio, listaJugadores, lista_equipos, equipos, loginview, jugadores, register, editarPerfil
+from .views import EquipoCreate,EquipoDelete,EquipoDetail, EquipoList, EquipoUpdate, aboutme, buscar, busqueda_ciudad, crea_jugadores, equipo, equipoFormulario, editar_jugadores, eliminarJugadores, inicio, listaJugadores, lista_equipos, equipos, loginView, jugadores, register, editarPerfil
 
 urlpatterns = [
     path("Agrega-equipo/<nombre>/<ciudad>", equipo),
@@ -23,7 +23,7 @@ urlpatterns = [
     path("creaEquipo/",EquipoCreate.as_view(),name="CreaEquipo"),
     path("actualizarEquipo/<pk>",EquipoUpdate.as_view(),name="ActualizaEquipo"),
     path("eliminarEquipo/<pk>",EquipoDelete.as_view(),name="EliminaEquipo"),
-    path("login/",loginview,name="Login"),
+    path("login/",loginView,name="Login"),
     path("registrar/",register,name="Registrar"),
     path("logout/",LogoutView.as_view(template_name="logout.html"),name="Logout"),
     path("editar-perfil/",editarPerfil,name="EditarPerfil"),

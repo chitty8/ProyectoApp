@@ -41,8 +41,8 @@ def lista_equipos(request):
 
 def inicio(request):
 
-    avatar = Avatar.objects.get(user=request.user)
-    return render(request, "inicio.html", {"url": avatar.imagen.url})
+    
+    return render(request, "inicio.html")
 
 
 def equipos(request):
@@ -65,7 +65,7 @@ def equipoFormulario(request):
         print(mi_formulario)
         if mi_formulario.is_valid():
             data = mi_formulario.cleaned_data
-            equipo= Equipo(nombre=data["equipo"], ciudad=data["ciudad"], equipo=data["equipo"], nacimiento=data["nacimiento"])
+            equipo= Equipo(nombre=data["equipo"], ciudad=data["ciudad"])
             equipo.save()
 
         return redirect("Equipos")
@@ -83,11 +83,15 @@ def busqueda_ciudad(request):
 
 def buscar(request):
 
-    ciudad_buscada = request.GET["ciudad"]
-    
-    equipo = Equipo.objects.get(ciudad = ciudad_buscada)
 
-    return render(request, "resultado_busqueda.html", {"equipo":equipo, "ciudad": ciudad_buscada})
+        ciudad_buscada = request.GET["ciudad"]
+
+        equipo = Equipo.objects.get(ciudad= ciudad_buscada)
+
+        return render(request, "resultado_busqueda.html", {"equipo":equipo, "ciudad": ciudad_buscada})
+
+
+
 
 
     
@@ -175,7 +179,6 @@ def editar_jugadores(request, id):
     
 
 
-
 class EquipoList(LoginRequiredMixin,ListView):
 
     model = Equipo
@@ -206,17 +209,19 @@ class EquipoDelete(DeleteView):
 
 
 
-def loginview(request):
-    print("method", request.method)
-    print("post", request.POST)
+def loginView(request):
 
-    
-    if request.method == "POST":
+    print('method:', request.method)
+    print('post: ', request.POST)
+
+    if request.method == 'POST':
+
         miFormulario = AuthenticationForm(request, data=request.POST)
 
         if miFormulario.is_valid():
 
             data = miFormulario.cleaned_data
+
             usuario = data["username"]
             psw = data["password"]
 
@@ -224,21 +229,22 @@ def loginview(request):
 
             if user:
 
-                login(request,user,psw)
-                
-                return render(request,"inicio.html", {"mensaje":f"bienvenido {usuario}"} )
+                login(request, user)
+
+                return render(request, "inicio.html", {"mensaje": f'Bienvenido {usuario}'})
             
             else:
 
-                return render(request,"inicio.html", {"mensaje":f"Erro datos incorrectos "} )
-             
-        return render(request,"inicio.html", {"mensaje":f"Error, formulario invalido"} )
-    
+                return render(request, "inicio.html", {"mensaje": f'Error, datos incorrectos'})
+
+        return render(request, "inicio.html", {"mensaje": f'Error, formulario invalido'})
+
     else:
+
         miFormulario = AuthenticationForm()
 
+        return render(request, "login.html", {"miFormulario": miFormulario})
 
-        return render(request, "login.html", {"miFormulario":miFormulario})
 
 
 
