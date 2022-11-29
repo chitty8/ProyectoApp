@@ -12,7 +12,6 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-
 def aboutme(request):
     avatar = Avatar.objects.get(user=request.user)
     return render(request, "aboutme.html",{"url": avatar.imagen.url})
@@ -276,6 +275,7 @@ def register(request):
 
 
 def editarPerfil(request):
+
     
     print('method:', request.method)
     print('post: ', request.POST)
@@ -293,16 +293,16 @@ def editarPerfil(request):
             usuario.first_name = data["first_name"]
             usuario.last_name = data["last_name"]
             usuario.email = data["email"]
-            
+            usuario.set_password(data["password1"])
 
             usuario.save()
 
             return render(request, "inicio.html", {"mensaje": f'Datos actualizados!'})
-
-        return render(request,"editarPerfil.html", {"mensaje":f"Las contraseñas no coinciden"})
+        
+        return render(request, "editarPerfil.html", {"mensaje": 'Contraseñas no coinciden'})
+    
     else:
 
-        miFormulario = UserEditForm(instance=request.user)
+            miFormulario = UserEditForm(instance=request.user)
 
-        return render(request, "editarPerfil.html", {"miFormulario": miFormulario})
-    
+            return render(request, "editarPerfil.html", {"miFormulario": miFormulario})

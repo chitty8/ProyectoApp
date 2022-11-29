@@ -17,23 +17,24 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
-        <link href="{% static 'css/misestilos.css' %}" rel="stylesheet" />
+    
     </head>
     <body>
         <!-- Navigation-->
         <nav class="navbar navbar-light bg-light static-top">
             <div class="container"> 
-                <a class="navbar-brand1" href="#!">Inicio</a>
-                <a class="navbar-brand2" href="{% url "Jugadores" %}">Jugadores</a>
-                <a class="navbar-brand3" href="{% url "Equipos" %}">Equipos</a>
-                <a class="navbar-brand3" href="{% url "Registrar" %}">Registrar</a>
-                <a class="navbar-brand3" href="{% url "AboutMe" %}">Sobre mi</a>
+                <a class="navbar-brand1" style="font-size: x-large;" href="#!">Inicio</a>
+                <a class="navbar-brand2" style="font-size: x-large;"  href="{% url "Jugadores" %}">Jugadores</a>
+                <a class="navbar-brand3"  style="font-size: x-large;" href="{% url "Equipos" %}">Equipos</a>
+                <a class="navbar-brand3" style="font-size: x-large;" href="{% url "AboutMe" %}">Sobre mi</a>
+                <a class="navbar-brand3" style="font-size: x-large;" href="{% url "EditarPerfil" %}">Editar Perfil</a>
                 
                 {% if user.is_authenticated %}
                     <p>Bienvenido {{user.username}}  </p>
                     <a class="btn btn-primary" href="{% url "Logout" %}">Logout</a>
                 {% else %}
                 <a class="btn btn-primary" href="{% url "Login" %}">Login</a>
+                <a class="navbar-brand3" style="font-size: x-large;" href="{% url "Registrar" %}">Registrar</a>
                 {% endif %}
             </div>
         </nav>
